@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>P2L1 - React Components &amp; Props</title>
+  <title>Reveal JS presentation</title>
 
   <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
   <meta name="author" content="Hakim El Hattab">
@@ -37,7 +37,7 @@
 
   <!-- Revealjs Theme -->
   
-  <link rel="stylesheet" href="libs/reveal.js/4.3.1/theme/night.css" id="theme">
+  <link rel="stylesheet" href="libs/reveal.js/4.3.1/theme/black.css" id="theme">
   
   
 
@@ -51,7 +51,7 @@
 
    <!-- css list -->
 	
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
 
    
@@ -73,8 +73,7 @@
     
         <section >
             
-            <!-- slide -->
-<h2> 🚗 React Roadmap
+            <h2> 🚗 React Roadmap
 <p>The goals for Phase 2: </h2></p>
 <ul>
 <li>
@@ -105,13 +104,14 @@
     
         <section >
             
-            <h2 style="text-align: center;"> ✅ Objectives </h2>
+            <h2> ✅ Objectives </h2>
 <ul>
 <li>Discuss the benefits of React over Vanilla JS</li>
 <li>Explain the importance of Components</li>
 <li>Practice writing components</li>
 <li>Define props and how to create them</li>
 <li>Recognize destructured props and how to work with them</li>
+<li>Recognize best practices when writing components and props</li>
 <li>Render multiple components from a list</li>
 </ul>
 
@@ -126,10 +126,10 @@
             <h2> 💡 React Philosophy </h2>
 <ul>
 <li>Use declarative syntax (JSX)</li>
-<li>Make it easier to work with the DOM</li>
-<li>Make a clearer connection between the code we write and what is displayed in the browser</li>
+<li>Makes it easier to work with the DOM</li>
+<li>Clearer connection between the code we write and what is displayed in the browser</li>
 <li>Use components to break down complex UI into smaller pieces which creates a better separation of concerns</li>
-<li>Make our code easier to maintain</li>
+<li>Easier to maintain</li>
 </ul>
 
             </section>
@@ -141,9 +141,7 @@
         <section >
             
             <h2> React > Vanilla JS </h2>
-<div style="display: flex; gap: 2rem;">
-<div>
-Instead of describing how to do something:
+<p>Instead of describing how to do something:</p>
 <pre><code class="language-js">const h1 = document.createElement(&quot;h1&quot;);
 h1.id = &quot;main&quot;;
 h1.className = &quot;blue&quot;;
@@ -156,15 +154,134 @@ h1.textContent = &quot;Hello!&quot;;
   &lt;/h1&gt;
 );
 </code></pre>
-</div>
-<div style="display: flex; flex-direction: column; justify-content: center;">
-  In both cases, we'll get something like this:
-<pre><code class="language-html">&lt;h1 id=&quot;main&quot; class=&quot;blue&quot;&gt;
-  Hello!
-&lt;/h1&gt;
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h2> ⚙️ Components </h2>
+<p>
+<p>Components are the building blocks of React. A component is a function that:</p>
+<ul>
+<li>Takes in some raw data (props)</li>
+<li>Returns user interface (JSX)</li>
+</ul>
+</p>
+<pre><code class="language-js">const rootElement = document.getElementById(&quot;root&quot;);
+const root = createRoot(rootElement);
+
+const Header = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Hello World&lt;/h3&gt;
+    &lt;/div&gt;
+  );
+};
+
+root.render(&lt;Header /&gt;);
 </code></pre>
-</div>
-</div>
+<p>xxx</p>
+<iframe src="https://codesandbox.io/embed/romantic-wilbur-3lzpzh?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="romantic-wilbur-3lzpzh"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h2> ⚙️ Component Gotchas </h2>
+<p>This is okay:</p>
+<pre><code class="language-js">function Card() {
+  return (
+    &lt;div id=&quot;card1&quot; className=&quot;card&quot;&gt;
+      &lt;h1&gt;hi&lt;/h1&gt;
+      &lt;p&gt;wassup?&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>This is NOT okay:</p>
+<pre><code class="language-js">function card() {
+  return (
+    &lt;h1&gt;hi&lt;/h1&gt;
+    &lt;p&gt;wassup?&lt;/p&gt;
+  )
+}
+</code></pre>
+<p>xxx</p>
+<ul>
+<li>Component name needs to be capitalized</li>
+<li>Components can only return one element</li>
+</ul>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h2> 🎩 Props! </h2>
+<p>When you create components, one way to make them dynamic and reusable is by passing in props. For example, if we wanted to create several cards on our page using a Card component, we could do so like this:</p>
+<pre><code class="language-js">function Card(props) {
+  return (
+    &lt;div id=&quot;card1&quot; className=&quot;card&quot;&gt;
+      &lt;h1&gt;{props.greeting}&lt;/h1&gt;
+      &lt;p&gt;{props.subGreeting}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Inside another component
+
+return (
+  &lt;div&gt;
+    &lt;Card greeting=&quot;hi&quot; subGreeting=&quot;hello&quot; /&gt;
+    &lt;Card greeting=&quot;sup&quot; subGreeting=&quot;what's up&quot; /&gt;
+  &lt;/div&gt;
+);
+</code></pre>
+<p>xxx</p>
+  <iframe src="https://codesandbox.io/embed/romantic-wilbur-3lzpzh?fontsize=14&hidenavigation=1&theme=dark"
+       style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+       title="romantic-wilbur-3lzpzh"
+       allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+       sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+     ></iframe>
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h2> 🎩 Props Continued </h2>
+<p>The props argument in our Card component defines an object that React will pass to our function when it is called, and it will use whatever attributes we add to our JSX component as key-value pairs on that props object.</p>
+<p>For example, if we were to add a console.log in the Card component above, we’d end up seeing this object:</p>
+<pre><code class="language-js">function Card(props) {
+  console.log(props); // =&gt; { greeting: &quot;hi&quot;, subGreeting: &quot;hello&quot; }
+
+  return (
+    &lt;div id=&quot;card1&quot; className=&quot;card&quot;&gt;
+      &lt;h1&gt;{props.greeting}&lt;/h1&gt;
+      &lt;p&gt;{props.subGreeting}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+
             </section>
     
 
@@ -183,7 +300,6 @@ h1.textContent = &quot;Hello!&quot;;
   <textarea style="font-size: 2rem; border: 2px solid black; padding: 1rem; width: 90%; background: #333; color: #eee" rows="10" cols="35"></textarea>    
   </div>
 </div>
-
             </section>
     
 
