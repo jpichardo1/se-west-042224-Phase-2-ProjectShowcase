@@ -4,15 +4,17 @@ import ProjectListItem from "./ProjectListItem";
 import projects from "../projects";
 
 const ProjectList = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // always initialize state with the data type it will be when set, or null
 
-  const searchResults = projects.filter((project) =>
-    project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    project.about.toLowerCase().includes(searchQuery.toLowerCase())
+  const searchResults = projects.filter(
+    (project) =>
+      project.name.toLowerCase().includes(searchQuery.toLowerCase()) || // .includes returns a boolean, perfect for the .filter fn!
+      project.about.toLowerCase().includes(searchQuery.toLowerCase()) // we can search both project names and abouts with the logical-OR || operator
   );
   console.log("🚀 ~ ProjectList ~ searchResults:", searchResults);
 
   const projectListItems = searchResults.map((project) => {
+    // map over the filtered array to determine which projects will get rendered as <ProjectListItem />s
     return (
       <ProjectListItem
         key={project.id}
