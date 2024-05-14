@@ -145,16 +145,39 @@
         <section >
             
             <h4>Handling events in React</h4>
-<pre><code class="language-js">const Counter = () =&gt; {
+<p>Event handlers can only be attached to DOM elements, we can’t attach event listeners directly to our components</p>
+<div style="display: flex; flex-direction: row; font-size: 0.95em;">
+  <div style="width: 50%">
+<h4>Doesn’t work:</h4>
+<pre><code class="language-js">function Button() {
   return (
-    &lt;button onClick={() =&gt; console.log(&quot;clicked!&quot;)}&gt;
+    &lt;button&gt;
       Click Me
     &lt;/button&gt;
   );
 };
-</code></pre>
-<p><strong>NOTE:</strong> Events can only be attached to DOM elements, we can’t attach event listeners directly to our components</p>
 
+&lt;Button onClick={() =&gt; console.log('clicked!')}&gt;
+  Click Me
+&lt;/Button&gt;
+</code></pre>
+  </div>
+  <div style="width: 50%">
+<h4>Does work</h4>
+<pre><code class="language-js">function Button({ handleClick }) {
+  return (
+    &lt;button onClick={handleClick}&gt;
+      Click Me
+    &lt;/button&gt;
+  );
+};
+
+&lt;Button handleClick={() =&gt; console.log('clicked!')}&gt;
+  Click Me
+&lt;/Button&gt;
+</code></pre>
+  </div>
+</div>
             </section>
     
 
@@ -165,14 +188,23 @@
             
             <h4>Defining Event Handlers</h4>
 <p>We can also define event handler functions within our components and pass the function reference to our event listener in the JSX.</p>
-<pre><code class="language-js">const Counter = () =&gt; {
-  function handleClick(event) {
-    console.log(event);
+<pre><code class="language-js">function Counter() {
+  const [count, setCount] = useState(2);
+  const handleDecrement = (event) =&gt; {
+    if(count &gt; 0) {
+      setCount(count =&gt; count - 1);
+    }
   }
 
-  return &lt;button onClick={handleClick}&gt;Click Me&lt;/button&gt;;
+  return (
+    &lt;div&gt;
+      {count}
+      &lt;button onClick={handleDecrement}&gt;-&lt;/button&gt;
+    &lt;/div&gt;
+  );
 };
 </code></pre>
+<p>xxx</p>
 <p>This is helpful in the case where we need to introduce additional event handling logic. We can do so without cluttering our JSX.</p>
 
             </section>

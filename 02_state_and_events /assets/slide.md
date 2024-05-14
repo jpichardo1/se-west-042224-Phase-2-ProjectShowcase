@@ -4,6 +4,7 @@ transition: "slide"
 highlightTheme: "monokai"
 slideNumber: false
 title: "P2L2 - React State and Events slides"
+verticalSeparator: 'xxx'
 ---
 
 <!-- slide -->
@@ -61,17 +62,49 @@ title: "P2L2 - React State and Events slides"
 
 #### Handling events in React 
 
+Event handlers can only be attached to DOM elements, we can't attach event listeners directly to our components
+
+<div style="display: flex; flex-direction: row; font-size: 0.95em;">
+  <div style="width: 50%">
+    
+#### Doesn't work:
+
 ```js
-const Counter = () => {
+function Button() {
   return (
-    <button onClick={() => console.log("clicked!")}>
+    <button>
       Click Me
     </button>
   );
 };
+
+<Button onClick={() => console.log('clicked!')}>
+  Click Me
+</Button>
+```
+    
+    
+  </div>
+  <div style="width: 50%">
+
+#### Does work
+
+```js
+function Button({ handleClick }) {
+  return (
+    <button onClick={handleClick}>
+      Click Me
+    </button>
+  );
+};
+
+<Button handleClick={() => console.log('clicked!')}>
+  Click Me
+</Button>
 ```
 
-**NOTE:** Events can only be attached to DOM elements, we can't attach event listeners directly to our components
+  </div>
+</div>
 
 ---
 
@@ -80,14 +113,24 @@ const Counter = () => {
 We can also define event handler functions within our components and pass the function reference to our event listener in the JSX.
 
 ```js
-const Counter = () => {
-  function handleClick(event) {
-    console.log(event);
+function Counter() {
+  const [count, setCount] = useState(2);
+  const handleDecrement = (event) => {
+    if(count > 0) {
+      setCount(count => count - 1);
+    }
   }
 
-  return <button onClick={handleClick}>Click Me</button>;
+  return (
+    <div>
+      {count}
+      <button onClick={handleDecrement}>-</button>
+    </div>
+  );
 };
 ```
+
+xxx
 
 This is helpful in the case where we need to introduce additional event handling logic. We can do so without cluttering our JSX.
 
