@@ -1,9 +1,12 @@
-import React from "react";
-
 const Header = ({ isDarkMode, onToggleDarkMode }) => {
-  const handleToggleDarkModeClick = (e) => {
+  // const toggleDarkMode = () => { // moved to App and renamed onToggleDarkMode
+  //   setIsDarkMode(isDarkMode => !isDarkMode)
+  // }
+
+  const handleToggleDarkMode = () => {
+    // toggleDarkMode();
     onToggleDarkMode();
-  }
+  };
 
   return (
     <header>
@@ -11,7 +14,9 @@ const Header = ({ isDarkMode, onToggleDarkMode }) => {
         <span className="logo">{"//"}</span>
         Project Showcase
       </h1>
-      <button onClick={handleToggleDarkModeClick}>{isDarkMode ? "Light Mode" : "Dark Mode"}</button>
+      <button onClick={handleToggleDarkMode}>
+        {isDarkMode ? "Light Mode" : "Dark Mode"}
+      </button>
     </header>
   );
 };
