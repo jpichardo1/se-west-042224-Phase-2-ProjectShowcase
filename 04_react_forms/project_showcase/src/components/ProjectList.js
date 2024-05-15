@@ -5,15 +5,8 @@ const ProjectList = ({ projects, onLoadProjects }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleClick = () => {
-    // loadProjects();
     onLoadProjects();
   };
-
-  // const loadProjects = () => { // moved up to ProjectContainer and renamed
-  //   fetch("http://localhost:4000/projects")
-  //     .then((res) => res.json())
-  //     .then((projects) => setProjects(projects));
-  // }
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -28,7 +21,6 @@ const ProjectList = ({ projects, onLoadProjects }) => {
       <ProjectListItem
         key={project.id}
         {...project}
-        // project={project} // this could also work, but more destructuring required
       />
     ));
   };

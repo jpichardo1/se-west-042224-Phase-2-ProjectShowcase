@@ -6,13 +6,13 @@ import ProjectsContainer from "./components/ProjectsContainer";
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  const onToggleDarkMode = () => {
+  const toggleDarkMode = () => {
     setIsDarkMode(isDarkMode => !isDarkMode)
   }
 
   return (
     <div className={isDarkMode ? "App" : "App light"}>
-      <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
+      <Header isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
       <ProjectsContainer />
     </div>
   );

@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 const ProjectListItem = ({ image, name, about, link, phase }) => {
-  // const {image, name, about, link, phase} = project
-
   const [clapCount, setClapCount] = useState(0);
 
   const handleClap = () => setClapCount(clapCount + 1);
@@ -10,8 +8,14 @@ const ProjectListItem = ({ image, name, about, link, phase }) => {
   return (
     <li className="card">
       <figure className="image">
-        <img src={image} alt={name} />
-        <button className="claps" onClick={handleClap}>
+        <img
+          src={image}
+          alt={name}
+        />
+        <button
+          className="claps"
+          onClick={handleClap}
+        >
           👏{clapCount}
         </button>
       </figure>

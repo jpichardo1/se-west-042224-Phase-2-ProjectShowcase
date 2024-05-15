@@ -1,10 +1,6 @@
 const Header = ({ isDarkMode, onToggleDarkMode }) => {
-  // const toggleDarkMode = () => { // moved to App and renamed onToggleDarkMode
-  //   setIsDarkMode(isDarkMode => !isDarkMode)
-  // }
 
   const handleToggleDarkMode = () => {
-    // toggleDarkMode();
     onToggleDarkMode();
   };
 

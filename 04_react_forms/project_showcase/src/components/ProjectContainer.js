@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ProjectForm from "./ProjectForm";
 import ProjectList from "./ProjectList";
 
 export default function ProjectContainer() {
-  const [projects, setProjects] = useState([]); // moved up from ProjectList
+  const [projects, setProjects] = useState([]); 
 
-  const onLoadProjects = () => {
-    // moved up and renamed from ProjectList
+  const loadProjects = () => {
     fetch("http://localhost:4000/projects")
       .then((res) => res.json())
       .then((projects) => setProjects(projects));
@@ -16,8 +15,8 @@ export default function ProjectContainer() {
     <div>
       <ProjectForm />
       <ProjectList
-        projects={projects} // pass down so it can be mapped over
-        onLoadProjects={onLoadProjects} // pass down to click handler fn
+        projects={projects} 
+        onLoadProjects={loadProjects} 
       />
     </div>
   );
