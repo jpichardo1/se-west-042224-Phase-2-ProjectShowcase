@@ -35,6 +35,7 @@ body {
 .App {
   color: var(--color);
   background-color: var(--background);
+  --primary: var(--turquoise);
   min-height: 100vh;
 }
 
