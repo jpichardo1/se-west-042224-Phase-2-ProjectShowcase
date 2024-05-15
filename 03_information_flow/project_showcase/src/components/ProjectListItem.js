@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ProjectListItem = ({
+const ProjectListItem = ({ // normal destructuring of the props obj, just multiline
   image,
   name,
   about,

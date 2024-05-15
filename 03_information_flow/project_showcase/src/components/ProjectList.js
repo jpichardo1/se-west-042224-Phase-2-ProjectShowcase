@@ -6,10 +6,10 @@ const ProjectList = ({onLoadProjects, projects}) => {
   const [searchQuery, setSearchQuery] = useState("")
 
   const handleClick = () => {
-    onLoadProjects();
+    onLoadProjects(); // calls loadProjects fn
   };
   
-  // const loadProjects = () => { // lifted up
+  // const loadProjects = () => { // lifted up to ProjectContainer
   //   fetch("http://localhost:4000/projects")
   //     .then((res) => res.json())
   //     .then((projects) => setProjects(projects));
@@ -27,7 +27,9 @@ const ProjectList = ({onLoadProjects, projects}) => {
     return projects.map(project => (
       <ProjectListItem
         key={project.id}
-        {...project}
+        {...project} // the spread operator copies all the key/values from the project object into the props object
+        // project={project} // this could also work, but more destructuring required on ProjectListItem
+
       />
     ))
   }

@@ -3,9 +3,9 @@ import ProjectForm from "./ProjectForm";
 import ProjectList from "./ProjectList";
 
 function ProjectContainer() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState([]); // lifted up from ProjectList; we need it here so ProjectForm will have access to it
 
-  const loadProjects = () => {
+  const loadProjects = () => { // lifted up from ProjectList
     fetch("http://localhost:4000/projects")
       .then((res) => res.json())
       .then((projects) => setProjects(projects));
@@ -15,8 +15,8 @@ function ProjectContainer() {
     <>
       <ProjectForm />
       <ProjectList
-        projects={projects}
-        onLoadProjects={loadProjects}
+        projects={projects} // passed back down to ProjectList
+        onLoadProjects={loadProjects} // passed down as callback in props
       />
     </>
   );
