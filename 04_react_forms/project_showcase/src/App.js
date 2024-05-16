@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Header from "./components/Header";
-import ProjectsContainer from "./components/ProjectsContainer";
+import ProjectContainer from "./components/ProjectContainer";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -13,7 +13,7 @@ const App = () => {
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
-      <ProjectsContainer />
+      <ProjectContainer />
     </div>
   );
 };
