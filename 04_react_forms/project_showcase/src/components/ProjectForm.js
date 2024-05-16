@@ -1,37 +1,60 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-const ProjectForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    about: "",
-    phase: "",
-    link: "",
-    image: ""
-  })
+const initState = {
+  name: "",
+  about: "",
+  phase: "",
+  link: "",
+  image: "",
+};
 
-  const handleInputChange = e => {
-    const { name, value } = e.target
-    setFormData({...formData, [name]: value})
-  }
-  
+const ProjectForm = ({ onAddProject }) => {
+  const [formData, setFormData] = useState(initState);
+
+  const handleInputChange = (e) => {
+    // e.target will return an object, the element that triggered the event with properties
+    // including name and value. Object destructuring is used to extract them from e.target
+    const { name, value } = e.target;
+    // This is the same as doing:
+    // const name = e.target.name
+    // const value = e.target.value
+
+    // The setter function is then invoked and a new object will  be created with the
+    // contents of the previous formData spread into it and the new key/value added to avoid overwriting the
+    // previous form field values
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAddProject(formData);
+    // after we have delivered the formData to the ProjectContainer component with the callback fn
+    // and updated state, clear the form by setting the values
+    // back to empty strings:
+    setFormData(initState);
+  };
+
   return (
     <section>
-      <form className="form">
+      <form
+        className="form"
+        onSubmit={handleSubmit}
+      >
         <h3>Add New Project</h3>
         <label htmlFor="name">Name</label>
-        <input 
-          type="text" 
-          id="name" 
+        <input
+          type="text"
+          id="name"
           name="name"
           value={formData.name}
-          onChange={handleInputChange} 
-          />
+          onChange={handleInputChange}
+        />
         <label htmlFor="about">About</label>
-        <textarea 
-          id="about" 
-          name="about" 
+        <textarea
+          id="about"
+          name="about"
           value={formData.about}
-          onChange={handleInputChange} 
+          onChange={handleInputChange}
         />
         <label htmlFor="phase">Phase</label>
         <select
