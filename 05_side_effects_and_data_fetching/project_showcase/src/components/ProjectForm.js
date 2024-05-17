@@ -22,7 +22,16 @@ const ProjectForm = ({ onAddProject }) => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    onAddProject(formData);
+    // onAddProject(formData);
+    const config = {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(formData)
+    }
+    fetch('http://localhost:4000/projects', config) // pessimistic rendering
+      .then(res => res.json())
+      .then(onAddProject)
+  
     setFormData(initialState);
   }
 
