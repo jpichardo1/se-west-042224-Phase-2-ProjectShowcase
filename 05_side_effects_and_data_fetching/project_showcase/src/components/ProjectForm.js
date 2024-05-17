@@ -1,36 +1,38 @@
 import React, { useState } from "react";
 
-const initialFormState = {
+const initialState = {
   name: "",
   about: "",
   phase: "",
   link: "",
-  image: ""
-}
+  image: "",
+};
+
 const ProjectForm = ({ onAddProject }) => {
-  const [formData, setFormData] = useState(initialFormState)
+  const [formData, setFormData] = useState(initialState); // create state to control form
+  // const { name, about, phase, link} = formData
 
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData(formData => {
-      return {
-        ...formData,
-        [name]: value
-      }
-    })
+  function handleOnChange(event) {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  function handleSubmit(event) {
+    event.preventDefault();
     onAddProject(formData);
-    setFormData(initialFormState);
+    setFormData(initialState);
   }
 
   return (
     <section>
-      <form className="form" autoComplete="off" onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        className="form"
+        autoComplete="off"
+      >
         <h3>Add New Project</h3>
 
         <label htmlFor="name">Name</label>
@@ -38,8 +40,8 @@ const ProjectForm = ({ onAddProject }) => {
           type="text"
           id="name"
           name="name"
-          value={formData.name}
-          onChange={handleOnChange}
+          value={formData.name} // put form under React control by assigning value from state
+          onChange={handleOnChange} // change events update the form state
         />
 
         <label htmlFor="about">About</label>
@@ -75,9 +77,9 @@ const ProjectForm = ({ onAddProject }) => {
         />
 
         <label htmlFor="image">Screenshot</label>
-        <input 
-          type="text" 
-          id="image" 
+        <input
+          type="text"
+          id="image"
           name="image"
           value={formData.image}
           onChange={handleOnChange}
