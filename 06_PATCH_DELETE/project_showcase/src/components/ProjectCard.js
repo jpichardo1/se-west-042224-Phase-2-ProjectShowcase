@@ -1,18 +1,33 @@
 import { useState } from "react";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 
-const ProjectListItem = ({ project, onEditProject }) => {
-  const { id, image, about, name, link, phase } = project;
+function ProjectCard({ 
+  project, 
+  onEditProject,
+  onUpdateProject,
+  onDeleteProject
+}) {
+  const { id, image, about, name, link, phase, claps } = project;
 
-  const [clapCount, setClapCount] = useState(0);
+  const [clapCount, setClapCount] = useState(claps)
 
-  const handleClap = () => setClapCount(clapCount => clapCount + 1);
+  const handleClap = () => {
+    setClapCount(clapCount => clapCount + 1);
+    // refactor to persist on backend
+  };
 
   const handleEditClick = () => {
     onEditProject(project);
   };
 
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = () => {
+    if (window.confirm("Are you sure you want to delete this project?")) { 
+      // optimistic version of DELETE
+     
+      // pessimistic version of DELETE
+      
+    }
+  };
 
   return (
     <li className="card">
@@ -48,4 +63,4 @@ const ProjectListItem = ({ project, onEditProject }) => {
   );
 };
 
-export default ProjectListItem;
+export default ProjectCard;

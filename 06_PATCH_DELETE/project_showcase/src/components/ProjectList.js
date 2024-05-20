@@ -1,35 +1,31 @@
-import ProjectListItem from "./ProjectListItem";
+import ProjectCard from "./ProjectCard";
 import { useState, useEffect } from "react";
 
-const ProjectList = ({
+function ProjectList({
   projects,
   onEditProject,
+  onUpdateProject,
+  onDeleteProject,
   setSelectedPhase,
   setSearchQuery
-}) => {
+}) {
   const [searchInputText, setSearchInputText] = useState("");
 
-  const projectItems = projects.map((project) => {
+  const projectCards = projects.map((project) => {
     return (
-      <ProjectListItem
+      <ProjectCard
         key={project.id}
         project={project}
         onEditProject={onEditProject}
+        onUpdateProject={onUpdateProject}
+        onDeleteProject={onDeleteProject}
       />
     );
   });
 
   const handleOnChange = (e) => setSearchInputText(e.target.value);
 
-  useEffect(() => {
-    const scheduledUpdate = setTimeout(() => {
-      setSearchQuery(searchInputText);
-    }, 300)
-    
-    return () => {
-      clearTimeout(scheduledUpdate);
-    }
-  }, [setSearchQuery, searchInputText])
+  // add useEffect to debounce search requests
 
   return (
     <section>
@@ -45,7 +41,7 @@ const ProjectList = ({
       </div>
       <input type="text" placeholder="Search..." onChange={handleOnChange} />
 
-      <ul className="cards">{projectItems}</ul>
+      <ul className="cards">{projectCards}</ul>
     </section>
   );
 };

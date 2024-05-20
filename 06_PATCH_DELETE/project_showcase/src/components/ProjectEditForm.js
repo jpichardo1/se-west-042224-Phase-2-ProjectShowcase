@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ProjectEditForm = ({ projectToEdit, onUpdateProject }) => {
-  
-
+function ProjectEditForm({ projectToEdit, onUpdateProject }) {
   const [formData, setFormData] = useState(projectToEdit);
 
   const { name, about, phase, link, image } = formData;
@@ -23,7 +21,12 @@ const ProjectEditForm = ({ projectToEdit, onUpdateProject }) => {
   function handleSubmit(e) {
     e.preventDefault();
     // Add code here
-    onUpdateProject();
+    // optimistic version of PATCH update
+    
+    onUpdateProject(formData);
+
+    // pessimistic version of PATCH update
+   
   }
 
   return (
