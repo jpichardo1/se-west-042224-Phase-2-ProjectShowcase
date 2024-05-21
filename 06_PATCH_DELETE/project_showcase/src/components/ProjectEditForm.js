@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+const baseURL = "http://localhost:4000/projects/"
+
 function ProjectEditForm({ projectToEdit, onUpdateProject }) {
   const [formData, setFormData] = useState(projectToEdit);
 
@@ -8,7 +10,7 @@ function ProjectEditForm({ projectToEdit, onUpdateProject }) {
   // refetch the projectToEdit from the database upon load
   // to ensure we have the most recent values for our formData
   useEffect(() => {
-    fetch(`http://localhost:4000/projects/${projectToEdit.id}`)
+    fetch(baseURL + `${projectToEdit.id}`)
       .then((res) => res.json())
       .then((project) => setFormData(project));
   }, [projectToEdit.id]);
@@ -22,10 +24,21 @@ function ProjectEditForm({ projectToEdit, onUpdateProject }) {
     e.preventDefault();
     // Add code here
     // optimistic version of PATCH update
-    
-    onUpdateProject(formData);
+    // onUpdateProject(formData);
 
+    const config = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    }
+    // fetch(baseURL + `${projectToEdit.id}`, config)
+    
     // pessimistic version of PATCH update
+    fetch(baseURL + `${projectToEdit.id}`, config)
+      .then(response => response.json())
+      .then(onUpdateProject)
    
   }
 

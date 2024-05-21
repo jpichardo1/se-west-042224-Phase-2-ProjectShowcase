@@ -32,6 +32,13 @@ function ProjectsContainer() {
   const onUpdateProject = (updatedProject) => {
     setProjectToEdit(null);
     // add code to update project in state
+    setProjects(projects.map(project => {
+      if (project.id === updatedProject.id) {
+        return updatedProject;
+      } else {
+        return project
+      }
+    }))
   };
 
   const onEditProject = (projectToEdit) => {
@@ -41,6 +48,7 @@ function ProjectsContainer() {
   const onDeleteProject = (projectId) => {
     console.log(`deleting project ${projectId}`);
     // code here to remove project from state
+    setProjects(projects.filter(project => project.id !== projectId));
   }
 
   const renderForm = () => {

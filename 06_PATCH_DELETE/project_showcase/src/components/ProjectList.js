@@ -26,6 +26,14 @@ function ProjectList({
   const handleOnChange = (e) => setSearchInputText(e.target.value);
 
   // add useEffect to debounce search requests
+  useEffect(() => {
+    let scheduledSearch = setTimeout(() => {
+      setSearchQuery(searchInputText)
+    }, 500)
+    return () => {
+      clearTimeout(scheduledSearch)
+    }
+  }, [searchInputText])
 
   return (
     <section>
