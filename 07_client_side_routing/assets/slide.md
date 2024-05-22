@@ -4,6 +4,7 @@ transition: "slide"
 highlightTheme: "monokai"
 slideNumber: false
 title: "P2L7 - React Client Side Routing slides"
+vertical-separator: xxx
 ---
 
 <h1> Client Side Routing 📲 </h1>
@@ -13,9 +14,9 @@ title: "P2L7 - React Client Side Routing slides"
 <h2><strong> ✅ Objectives </strong></h2>
 
 - Create a multi-page SPA
-- Utilize the most common react-router components to build a SPA: BrowserRouter, Route, Switch, Link, and NavLink
-- Use custom hooks like useHistory and useParams to access the state of the router
-- Use the history object to navigate pages
+- Utilize the most common react-router components to build a SPA: BrowserRouter, Route, Routes, Link, and NavLink
+- Use custom hooks like useNavigate and useParams to access the state of the router
+- Use the navigate funtion to navigate pages
 - Create dynamic routes and use params
 
 ---
@@ -59,7 +60,7 @@ What URLs do we want our application to have to simulate the feeling of differen
 
 - BrowserRouter
 
-- Switch
+- Routes
 
 - Route
 
@@ -116,16 +117,16 @@ ReactDOM.render(
 
 ---
 
-### Switch Component 
+### 2️⃣ Routes Component 
 
 <div style="display: flex; font-size: 0.8em">
   <div style="width: 35%; font-size: 0.65em; text-align: left;">
 
-💡 `Switch` is a wrapper for Routes. Looks through all its child Route components and returns the first one that matches the current URL (like a switch statement in JavaScript) {.fragment}
+💡 `Routes` is a wrapper component. Looks through all its child Route components and returns the one that matches the current URL (like a switch statement in JavaScript) {.fragment}
 
 ❓ Where does it belong? {.fragment}
 
-Consider where most of the applications components are rendered, this is where they will be nested inside the `Switch` component. {.fragment}
+Consider where most of the applications components are rendered, this is where they will be nested inside the `Routes` component. {.fragment}
 
 Typically this is in the `App` component. Sometimes an extra component will be created designated for just routing. {.fragment}
 
@@ -139,20 +140,11 @@ return (
       isDarkMode={isDarkMode} 
       onToggleDarkMode={onToggleDarkMode} 
     />
-    <Switch>
+    <Routes>
       <Home />
       <About />
-      {renderForm()}
-      <ProjectList
-        projects={projects}
-        onEditProject={onEditProject}
-        onDeleteProject={onDeleteProject}
-        setSelectedPhase={setSelectedPhase}
-        setSearchQuery={setSearchQuery}
-      />
-      <Home />
-      <ProjectDetail />
-    </Switch>
+      <ProjectsContainer />
+    </Routes>
   </div>
 );
 ```
@@ -164,7 +156,7 @@ return (
 
 ---
 
-#### Creating routes using the Route Component 
+#### 3️⃣ Creating routes using the Route Component 
 
 <div style="display: flex; font-size: 0.8em">
   <div style="width: 35%; font-size: 0.65em; text-align: left;">
@@ -173,40 +165,58 @@ return (
 
 ❓ Where does it belong? {.fragment}
 
-Every component nested inside of the `Switch` component will be individually wrapped inside of a `Route` component. {.fragment}
+Every component nested inside of the `Routes` component will be individually wrapped inside of a `Route` component. {.fragment}
 
-💥 Route will be provided a `path` prop. {.fragment}
-if the current URL matches the path, the Route will render its children. Otherwise, the Route renders null. {.fragment}
+💥 Route will be provided a `path` prop and an `element` prop. {.fragment}
+
+💥 If the current URL matches the path, the Route will render its element. Otherwise, the Route renders null. {.fragment}
 
   </div>
   <div style="width: 65%; font-size: 0.75em" class="fragment">
 
 ```js
+// App.js
+  return (
+    <div className={isDarkMode ? "App" : "App light"}>
+      <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/projects/*" element={<ProjectsContainer />} />
+      </Routes>
+    </div>
+  );
+
+// ProjectsContainer
 return (
-  <div className={isDarkMode ? "App" : "App light"}>
-    <Header 
-      isDarkMode={isDarkMode} 
-      onToggleDarkMode={onToggleDarkMode} 
-    />
-    <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route path="/projects/new">
-        <ProjectForm onAddProject={onAddProject} />
-      </Route>
-      <Route path="/projects/:id/edit">
-        <ProjectEditForm onUpdateProject={onUpdateProject} />
-      </Route>
-      <Route path="/projects/:id">
-        <ProjectDetail />
-      </Route>
-      <Route path="/projects">
-        <ProjectList projects={projects} onDeleteProject={onDeleteProject} />
-      </Route>
-    </Switch>
-  </div>
-);
+    <Routes>
+      <Route
+        path="new"
+        element={<ProjectForm onAddProject={onAddProject} />}
+      />
+      <Route
+        path=":id/edit"
+        element={<ProjectEditForm onUpdateProject={onUpdateProject} />}
+      />
+      <Route
+        path=":id"
+        element={<ProjectDetail onDeleteProject={onDeleteProject} />}
+      />
+      <Route
+        path=""
+        element={
+          <ProjectList
+            projects={projects}
+            onUpdateProject={onUpdateProject}
+            onDeleteProject={onDeleteProject}
+            onSelectedPhaseChange={onSelectedPhaseChange}
+            setSelectedPhase={setSelectedPhase}
+            setSearchQuery={setSearchQuery}
+          />
+        }
+      />
+    </Routes>
+  );
 ```
 
   </div>
@@ -215,7 +225,7 @@ return (
 
 ---
 
-### Link Component 
+### 4️⃣ Link Component 
 
 <div style="display: flex; font-size: 0.8em">
   <div style="width: 40%; text-align: left; font-size: 0.8em">
@@ -258,7 +268,7 @@ return (
 
 ---
 
-### NavLink Component 
+### 5️⃣ NavLink Component 
 
 <div style="display: flex; font-size: 0.8em">
   <div style="width: 40%; text-align: left; font-size: 0.8em">
@@ -267,7 +277,7 @@ return (
 
 💥 If you're building sidebar navigation with subsections, you may want the active class to apply to multiple links (the main and subsection) {.fragment}
 
-💥 Otherwise, if you want the active class to only apply if the current URL is an exact match to the `NavLink`, then add the `exact` prop to the `NavLink` {.fragment}
+💥 Otherwise, if you want the active class to only apply if the current URL is an exact match to the `NavLink`, then add the `end` prop to the `NavLink` {.fragment}
 
   </div>
   <div style="width: 60%" class="fragment">
@@ -280,13 +290,14 @@ return (
       <div className="navigation">
         <NavLink 
           className="button" 
-          exact to="/projects"
+          to="/projects"
+          end
         >
           All Projects
         </NavLink>
         <NavLink 
           className="button" 
-          exact to="/projects/new"
+          to="/projects/new"
         >
           Add Project
         </NavLink>
@@ -299,4 +310,82 @@ return (
 
   </div>
 </div>
+
+---
+
+### 6️⃣ useNavigate Hook 
+
+<div style="display: flex; font-size: 0.8em">
+  <div style="width: 40%; text-align: left; font-size: 0.8em">
+
+💡 `useNavigate` is a hook which returns a function which you can use to navigate to a route programatically (by executing Javascript) {.fragment}
+
+💥 It accomplishes what a `<Link>` does, but without user interaction. Often used as a redirect after another process completes. {.fragment}
+
+💥 The navigate function takes a string argument which is the new route, just like the `to` prop of a `<Link>` {.fragment}
+
+  </div>
+  <div style="width: 60%" class="fragment">
+
+```js
+import { useNavigate } from 'react-router-dom'
+...
+const navigate = useNavigate()
+...
+// after sending a PATCH
+fetch(`http://localhost:4000/projects/${id}`, configObj)
+  .then((resp) => resp.json())
+  .then((updatedProj) => {
+    onUpdateProject(updatedProj);
+    navigate(`/projects/${id}`)
+  });
+```
+
+  </div>
+</div>
+
+---
+
+### 7️⃣ useParams Hook 
+
+<div style="display: flex; font-size: 0.8em">
+  <div style="width: 40%; text-align: left; font-size: 0.8em">
+
+💡 `useParams` is a hook which returns an object of key/value pairs of dynamic parameters from the current URL {.fragment}
+ 
+💥 If the current URL is `/projects/3` and it matches a router path `/projects/:id`, useParams will return `{ id: 3 }` {.fragment}
+
+💥 This is very useful if the `id` is not being passed to a component in props, since we can still communicate it through the URL {.fragment}
+
+  </div>
+  <div style="width: 60%" class="fragment">
+
+```js
+// ProjectsContainer.js
+<Routes>
+...
+      <Route
+        path=":id"
+        element={<ProjectDetail onDeleteProject={onDeleteProject} />}
+      />
+...
+</Routes>
+
+// ProjectDetail.js
+import { useParams } from 'react-router-dom'
+...
+const { id } = useParams()
+useEffect(() => {
+    fetch(`http://localhost:4000/projects/${id}`)
+      .then((r) => r.json())
+      .then((project) => {
+        setProject(project);
+      });
+  }, [id]);
+```
+  </div>
+</div>
+
+
+
 
