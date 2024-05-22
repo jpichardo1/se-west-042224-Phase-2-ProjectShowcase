@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Routes, Route } from 'react-router-dom'
 
 import Header from "./components/Header";
 import Home from "./components/Home";
@@ -15,9 +16,11 @@ const App = () => {
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={onToggleDarkMode} />
-      <Home />
-      <About />
-      <ProjectsContainer />
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/about" element={<About />}/>
+        <Route path="/projects/*" element={<ProjectsContainer />}/>
+      </Routes>
     </div>
   );
 };

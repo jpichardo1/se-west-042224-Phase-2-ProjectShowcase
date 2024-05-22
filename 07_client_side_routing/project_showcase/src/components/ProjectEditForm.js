@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from 'react-router-dom'
 
-const ProjectEditForm = ({ projectToEdit, onUpdateProject }) => {
-  const [formData, setFormData] = useState(projectToEdit);
+const ProjectEditForm = ({ onUpdateProject }) => {
+  const [formData, setFormData] = useState({});
 
   const { name, about, phase, link, image } = formData;
 
-  // const { id } = useParams()
+  const { id } = useParams()
 
-  // const history = useHistory()
+  const navigate = useNavigate()
+
 
   useEffect(() => {
-    fetch(`http://localhost:4000/projects/${projectToEdit.id}`)
+    fetch(`http://localhost:4000/projects/${id}`)
       .then((res) => res.json())
       .then((project) => setFormData(project));
-  }, [projectToEdit.id]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,10 +32,11 @@ const ProjectEditForm = ({ projectToEdit, onUpdateProject }) => {
       body: JSON.stringify(formData),
     };
 
-    fetch(`http://localhost:4000/projects/${projectToEdit.id}`, configObj)
+    fetch(`http://localhost:4000/projects/${id}`, configObj)
       .then((resp) => resp.json())
       .then((updatedProj) => {
         onUpdateProject(updatedProj);
+        navigate(`/projects/${id}`)
       });
   };
 

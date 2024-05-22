@@ -1,26 +1,26 @@
-import React from "react";
-
+// import React from "react";
+import { Link, NavLink } from 'react-router-dom';
 const Header = ({ isDarkMode, onToggleDarkMode }) => {
   const buttonTextContent = isDarkMode ? "Light Mode" : "Dark Mode";
 
   return (
     <header>
       <h1 className="branding">
-        <a href="/"><span className="logo">{"//"}</span>
+        <Link to="/"><span className="logo">{"//"}</span>
           Project Showcase
-        </a>
+        </Link>
       </h1>
       <nav>
         <div className="navigation">
-          <a className="button" href="/projects">
+          <NavLink className="button" to="/projects" end>
             All Projects
-          </a>
-          <a className="button" href="/projects/new">
+          </NavLink>
+          <NavLink className="button" to="/projects/new">
             Add Project
-          </a>
-          <a className="button" href="/about">
+          </NavLink>
+          <NavLink className="button" to="/about">
             About
-          </a>
+          </NavLink>
           <button onClick={onToggleDarkMode}>{buttonTextContent}</button>
         </div>
       </nav>

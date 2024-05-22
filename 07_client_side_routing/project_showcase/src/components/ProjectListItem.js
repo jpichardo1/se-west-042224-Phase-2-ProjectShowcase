@@ -1,24 +1,39 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom'
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
+
 
 const ProjectListItem = ({
   project,
-  onEditProject,
+  onUpdateProject,
   onDeleteProject,
 }) => {
-  const { id, image, about, name, link, phase } = project;
+  const { id, image, about, name, link, phase, claps } = project;
+  const projectUrl = `http://localhost:4000/projects/${id}`
+  
+  // const [clapCount, setClapCount] = useState(0);
 
-  const [clapCount, setClapCount] = useState(0);
+  // const handleClap = (clapCount) => setClapCount(clapCount + 1);
 
-  const handleClap = (clapCount) => setClapCount(clapCount + 1);
+  const handleClap = () => {
+    fetch(projectUrl, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ claps: claps + 1 })
+    })
+      .then(response => response.json())
+      .then(onUpdateProject)
+  }
 
-  const handleEditClick = () => {
-    onEditProject(project);
-  };
+  // const handleEditClick = () => {
+  //   onEditProject(project);
+  // };
 
   const handleDeleteClick = () => {
     onDeleteProject(id)
-    fetch(`http://localhost:4000/projects/${id}`, {
+    fetch(projectUrl, {
       method: "DELETE"
     })
   };
@@ -26,9 +41,11 @@ const ProjectListItem = ({
   return (
     <li className="card">
       <figure className="image">
-        <img src={image} alt={name} />
+        <Link to={`/projects/${id}`}>
+          <img src={image} alt={name} />
+        </Link>
         <button onClick={handleClap} className="claps">
-          👏{clapCount}
+          👏{claps}
         </button>
       </figure>
 
@@ -45,9 +62,9 @@ const ProjectListItem = ({
       <footer className="extra">
         <span className="badge blue">Phase {phase}</span>
         <div className="manage">
-          <button onClick={handleEditClick}>
+          <Link to={`/projects/${id}/edit`} className="button">
             <FaPencilAlt />
-          </button>
+          </Link>
           <button onClick={handleDeleteClick}>
             <FaTrash />
           </button>
